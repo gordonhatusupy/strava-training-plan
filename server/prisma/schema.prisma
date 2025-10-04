@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(cuid())
+  stravaId      Int        @unique
+  firstName     String
+  lastName      String
+  email         String     @unique
+  profilePhoto  String?
+  accessToken   String
+  refreshToken  String
+  tokenExpiry   DateTime
+  ftp           Int?       @default(200)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  activities    Activity[]
+  workouts      Workout[]
+}
+
+model Activity {
+  id                      Int      @id
+  userId                  String
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                    String
+  distance                Float
+  movingTime              Int
+  elapsedTime             Int
+  totalElevationGain      Float
+  type                    String
+  sportType               String
+  startDate               DateTime
+  averageHeartrate        Float?
+  maxHeartrate            Float?
+  averageWatts            Float?
+  weightedAverageWatts    Float?
+  kilojoules              Float?
+  hasHeartrate            Boolean
+  deviceWatts             Boolean
+  calculatedTSS           Float?
+  polyline                String?
+  createdAt               DateTime @default(now())
+
+  @@index([userId, startDate])
+}
+
+model Workout {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day           String
+  date          DateTime
+  type          String
+  targetTSS     Float
+  duration      Int
+  description   String
+  zones         String[] // JSON array
+  routeSuggestion String?
+  completed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
