@@ -113,10 +113,30 @@ This starts both:
 
 ## Deployment
 
-Ready for deployment to:
-- **Frontend**: Vercel, Netlify, or Railway
-- **Backend**: Railway, Render, or Heroku
-- **Database**: Railway, Supabase, or any PostgreSQL host
+### Deploy to Vercel (Recommended)
+
+This app is configured for easy deployment to Vercel:
+
+1. **Push to GitHub** (if not done already):
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/strava-training-plan.git
+   git push -u origin main
+   ```
+
+2. **Deploy to Vercel**:
+   - Go to https://vercel.com/new
+   - Import your GitHub repository
+   - Add environment variables (see `DEPLOY.md` for details)
+   - Click "Deploy"
+
+3. **Set up database** using Vercel Postgres or external provider
+
+📖 **Full deployment guide**: See [DEPLOY.md](./DEPLOY.md) for detailed instructions
+
+### Alternative Deployment Options
+- **Railway**: Full-stack with database
+- **Render**: Free tier available
+- **DigitalOcean**: App Platform
 
 ## License
 
